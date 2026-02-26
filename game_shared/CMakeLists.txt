@@ -21,5 +21,5 @@ endif()
 
 
 include_directories(.)
-add_library(vcs_info STATIC vcs_info.c)
-set_property(TARGET vcs_info PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+add_library(hlsdk_vcs_info STATIC vcs_info.c)
+set_property(TARGET hlsdk_vcs_info PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")

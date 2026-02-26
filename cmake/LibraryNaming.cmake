@@ -199,6 +199,7 @@ else()
 	message(SEND_ERROR "Place your architecture name here! If this is a mistake, try to fix conditions above and report a bug")
 endif()
 
+if(DIII4A) #k: unuse suffix
 if(BUILDOS AND BUILDARCH)
 	set(POSTFIX "_${BUILDOS}_${BUILDARCH}")
 elseif(BUILDARCH)
@@ -206,18 +207,23 @@ elseif(BUILDARCH)
 else()
 	set(POSTFIX "")
 endif()
+endif()
 
 message(STATUS "Library postfix: " ${POSTFIX})
 
 macro(set_target_postfix target)
+    if(NOT DIII4A) #k: don't rename library
 	set_target_properties(${target} PROPERTIES OUTPUT_NAME "${target}${POSTFIX}")
+	endif()
 	if(NOT ANDROID)
 		set_target_properties(${target} PROPERTIES PREFIX "")
 	endif()
 endmacro()
 
 macro(set_target_postfix_with_name target name)
+    if(NOT DIII4A) #k: don't rename library
 	set_target_properties(${target} PROPERTIES OUTPUT_NAME "${name}${POSTFIX}")
+	endif()
 	if(NOT ANDROID)
 		set_target_properties(${target} PROPERTIES PREFIX "")
 	endif()

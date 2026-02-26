@@ -23,7 +23,7 @@
 cmake_minimum_required(VERSION 3.9)
 project (SVDLL)
 
-set (SVDLL_LIBRARY server)
+set (SVDLL_LIBRARY server_hl)
 
 if(NOT MSVC)
 	add_compile_options(-fno-exceptions) # GCC/Clang flag
@@ -182,7 +182,7 @@ else()
 endif()
 
 add_library (${SVDLL_LIBRARY} SHARED ${SVDLL_SOURCES})
-target_link_libraries(${SVDLL_LIBRARY} vcs_info)
+target_link_libraries(${SVDLL_LIBRARY} hlsdk_vcs_info)
 
 set_target_properties (${SVDLL_LIBRARY} PROPERTIES POSITION_INDEPENDENT_CODE 1)
 
@@ -199,17 +199,17 @@ endif()
 
 set_target_postfix_with_name(${SVDLL_LIBRARY} ${SVDLL_NAME})
 
-set_property(TARGET ${SVDLL_LIBRARY} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+	set_property(TARGET ${SVDLL_LIBRARY} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 if(HAVE_LTO)
 	set_property(TARGET ${SVDLL_LIBRARY} PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
 endif()
 
-install(TARGETS ${SVDLL_LIBRARY}
+install( TARGETS ${SVDLL_LIBRARY}
 	RUNTIME DESTINATION "${GAMEDIR}/${SERVER_INSTALL_DIR}/"
 	LIBRARY DESTINATION "${GAMEDIR}/${SERVER_INSTALL_DIR}/"
 	PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
-		GROUP_READ GROUP_EXECUTE
+	    GROUP_READ GROUP_EXECUTE
 		WORLD_READ WORLD_EXECUTE)
 
 if(CMAKE_BUILD_TYPE MATCHES "Release" AND NOT WIN32)

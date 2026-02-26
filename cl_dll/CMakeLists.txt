@@ -23,7 +23,7 @@
 cmake_minimum_required(VERSION 3.9)
 project (CLDLL)
 
-set (CLDLL_LIBRARY client)
+set (CLDLL_LIBRARY client_hl)
 
 add_definitions(-DCLIENT_DLL)
 
@@ -198,7 +198,7 @@ if(USE_VOICEMGR)
 endif()
 
 add_library (${CLDLL_LIBRARY} SHARED ${CLDLL_SOURCES})
-target_link_libraries(${CLDLL_LIBRARY} vcs_info)
+target_link_libraries(${CLDLL_LIBRARY} hlsdk_vcs_info)
 
 if (GOLDSOURCE_SUPPORT)
 	target_link_libraries( ${CLDLL_LIBRARY} ${CMAKE_DL_LIBS} )
@@ -229,18 +229,18 @@ set_target_properties (${CLDLL_LIBRARY} PROPERTIES
 
 set_target_postfix(${CLDLL_LIBRARY})
 
-set_property(TARGET ${CLDLL_LIBRARY} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+	set_property(TARGET ${CLDLL_LIBRARY} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 if(HAVE_LTO)
 	set_property(TARGET ${CLDLL_LIBRARY} PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
 endif()
 
-install(TARGETS ${CLDLL_LIBRARY}
+install( TARGETS ${CLDLL_LIBRARY}
 	RUNTIME DESTINATION "${GAMEDIR}/${CLIENT_INSTALL_DIR}/"
 	LIBRARY DESTINATION "${GAMEDIR}/${CLIENT_INSTALL_DIR}/"
 	PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
-		GROUP_READ GROUP_EXECUTE
-		WORLD_READ WORLD_EXECUTE)
+	    GROUP_READ GROUP_EXECUTE
+		WORLD_READ WORLD_EXECUTE )
 
 if(CMAKE_BUILD_TYPE MATCHES "Release" AND NOT WIN32)
 	add_custom_command(TARGET ${CLDLL_LIBRARY}
